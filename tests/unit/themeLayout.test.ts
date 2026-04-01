@@ -59,3 +59,15 @@ test('uses a compact multi-column progress board to preserve sidebar viewport he
     /\.issue-digest\s*{[\s\S]*grid-column:\s*1\s*\/\s*-1;/,
   )
 })
+
+test('tightens progress board spacing so the lower list gets more vertical room', () => {
+  expect(themeCss).toMatch(
+    /\.progress-card\s*{[\s\S]*padding:\s*8px 10px;/,
+  )
+  expect(themeCss).toMatch(
+    /\.progress-primary\s*{[\s\S]*margin-top:\s*6px;[\s\S]*font-size:\s*15px;/,
+  )
+  expect(themeCss).toMatch(
+    /\.issue-digest-empty\s*{[\s\S]*margin-top:\s*0;/,
+  )
+})

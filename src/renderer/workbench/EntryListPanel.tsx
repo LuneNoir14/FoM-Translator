@@ -269,6 +269,9 @@ export function EntryListPanel() {
         <section className="progress-card issue-digest">
           <div className="progress-card-header">
             <h3>Issue Digest</h3>
+            {progressBoard.issueDigest.length === 0 ? (
+              <p className="issue-digest-empty">No validation issues in this scope</p>
+            ) : null}
           </div>
           {progressBoard.issueDigest.length > 0 ? (
             <div className="issue-digest-list">
@@ -279,9 +282,7 @@ export function EntryListPanel() {
                 </div>
               ))}
             </div>
-          ) : (
-            <p className="issue-digest-empty">No validation issues in this scope</p>
-          )}
+          ) : null}
         </section>
       </div>
 
