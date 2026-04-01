@@ -1,0 +1,46 @@
+{
+  "appId": "com.fom.fomtranslator",
+  "productName": "FoMTranslator",
+  "directories": {
+    "output": "dist-app"
+  },
+  "extraResources": [
+    {
+      "from": "build/icon.ico",
+      "to": "icon.ico"
+    }
+  ],
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*",
+    "package.json"
+  ],
+  "win": {
+    "icon": "build/icon.ico",
+    "signAndEditExecutable": false,
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      },
+      {
+        "target": "portable",
+        "arch": [
+          "x64"
+        ]
+      }
+    ]
+  },
+  "nsis": {
+    "artifactName": "FoMTranslator-Setup-${version}.${ext}",
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true
+  },
+  "portable": {
+    "artifactName": "FoMTranslator-Portable-${version}.${ext}"
+  }
+}

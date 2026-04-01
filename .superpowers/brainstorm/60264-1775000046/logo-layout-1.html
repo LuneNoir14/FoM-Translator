@@ -1,0 +1,365 @@
+<style>
+  .hero {
+    margin-bottom: 1.5rem;
+  }
+
+  .hero .recommendation {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid rgba(122, 210, 255, 0.35);
+    border-radius: 999px;
+    background: rgba(122, 210, 255, 0.1);
+    color: #7ad2ff;
+    font-size: 0.85rem;
+  }
+
+  .cards {
+    align-items: stretch;
+  }
+
+  .card {
+    background: #14181e;
+    border: 1px solid #2a3038;
+    border-radius: 18px;
+  }
+
+  .card-image {
+    aspect-ratio: 16 / 12;
+    padding: 1rem;
+    background: #101419;
+  }
+
+  .card-body {
+    background: #14181e;
+  }
+
+  .card-body h3 {
+    color: #f2f4f8;
+  }
+
+  .card-body p {
+    color: #aab3bf;
+  }
+
+  .app-frame {
+    height: 100%;
+    border: 1px solid #272d35;
+    border-radius: 18px;
+    background: #181d24;
+    overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  }
+
+  .window-bar {
+    height: 14px;
+    background: #20252d;
+    border-bottom: 1px solid #282e36;
+  }
+
+  .preview-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    height: calc(100% - 14px);
+    padding: 0.9rem;
+    background: #1b2027;
+  }
+
+  .preview-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 72px;
+    padding: 0.8rem 0.95rem;
+    border: 1px solid #303743;
+    border-radius: 18px;
+    background: #161b22;
+  }
+
+  .preview-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .preview-brand img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .preview-brand-copy {
+    min-width: 0;
+  }
+
+  .preview-brand-copy .eyebrow {
+    font-size: 0.48rem;
+    color: #7ad2ff;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  .preview-brand-copy .path {
+    margin-top: 0.28rem;
+    color: #7f8b99;
+    font-size: 0.48rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .preview-actions {
+    display: flex;
+    gap: 0.45rem;
+    flex-shrink: 0;
+  }
+
+  .preview-actions span {
+    padding: 0.38rem 0.62rem;
+    border: 1px solid #34404d;
+    border-radius: 12px;
+    color: #eef3fb;
+    font-size: 0.52rem;
+    background: #1d242d;
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1.3fr 1.3fr;
+    gap: 0.85rem;
+    min-height: 0;
+    flex: 1;
+  }
+
+  .preview-panel {
+    border: 1px solid #2f3742;
+    border-radius: 18px;
+    background: #151b22;
+    padding: 0.85rem;
+  }
+
+  .preview-panel .title {
+    color: #f0f3f8;
+    font-size: 0.62rem;
+    margin-bottom: 0.55rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .preview-line {
+    height: 0.48rem;
+    border-radius: 999px;
+    background: #2a313b;
+    margin-bottom: 0.4rem;
+  }
+
+  .preview-line.short {
+    width: 62%;
+  }
+
+  .preview-line.medium {
+    width: 78%;
+  }
+
+  .entry-card {
+    margin-top: 0.65rem;
+    padding: 0.65rem;
+    border: 1px solid #36516b;
+    border-radius: 14px;
+    background: #18202a;
+  }
+
+  .entry-card .badge {
+    display: inline-flex;
+    margin-top: 0.55rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.45rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .entry-card .badge.warn {
+    color: #ffc487;
+    background: rgba(191, 118, 35, 0.14);
+    border: 1px solid rgba(191, 118, 35, 0.4);
+  }
+
+  .entry-card .badge.done {
+    color: #8cf0b0;
+    background: rgba(47, 124, 76, 0.14);
+    border: 1px solid rgba(47, 124, 76, 0.4);
+  }
+
+  .logo-full {
+    width: 240px;
+  }
+
+  .logo-medium {
+    width: 188px;
+  }
+
+  .logo-compact {
+    width: 148px;
+  }
+
+  .stacked {
+    align-items: flex-start;
+  }
+
+  .stacked .preview-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 112px;
+  }
+
+  .stacked .preview-brand {
+    justify-content: center;
+  }
+
+  .stacked .preview-actions {
+    justify-content: flex-end;
+  }
+
+  .minimal .preview-brand-copy .eyebrow {
+    color: #cfd7e4;
+    letter-spacing: 0.08em;
+  }
+
+  .minimal .preview-brand-copy .path {
+    font-size: 0.44rem;
+  }
+</style>
+
+<div class="hero">
+  <h2>Logo'yu ustte nasil kullanalim?</h2>
+  <p class="subtitle">Hepsinde arka plan duz gri-siyah. Fark, logonun baskinligi ve ust barin ne kadar sade kaldigi.</p>
+  <div class="recommendation">Onerim: B. Logo okunakli kaliyor ama butonlar ve dosya yolu da ezilmiyor.</div>
+</div>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="app-frame stacked">
+        <div class="window-bar"></div>
+        <div class="preview-shell">
+          <div class="preview-topbar">
+            <div class="preview-brand">
+              <img class="logo-full" src="/files/applogo.png" alt="FoMTranslator logo">
+            </div>
+            <div class="preview-actions">
+              <span>Open File</span>
+              <span>Export JSON</span>
+            </div>
+          </div>
+          <div class="preview-grid">
+            <div class="preview-panel">
+              <div class="title">Entries</div>
+              <div class="preview-line medium"></div>
+              <div class="preview-line short"></div>
+              <div class="entry-card">
+                <div class="preview-line medium"></div>
+                <div class="preview-line short"></div>
+                <span class="badge done">Bitti</span>
+              </div>
+            </div>
+            <div class="preview-panel"></div>
+            <div class="preview-panel"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Marka once gelir</h3>
+      <p>Logo en baskin haliyle ortalanir. Paylasim ekran goruntulerinde guclu durur ama ust alan biraz daha uzun olur.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="app-frame">
+        <div class="window-bar"></div>
+        <div class="preview-shell">
+          <div class="preview-topbar">
+            <div class="preview-brand">
+              <img class="logo-medium" src="/files/applogo.png" alt="FoMTranslator logo">
+              <div class="preview-brand-copy">
+                <div class="eyebrow">Offline translation workspace</div>
+                <div class="path">C:\Users\ANIL\Desktop\ceviri\localization.en.json</div>
+              </div>
+            </div>
+            <div class="preview-actions">
+              <span>Open File</span>
+              <span>Export JSON</span>
+            </div>
+          </div>
+          <div class="preview-grid">
+            <div class="preview-panel">
+              <div class="title">Entries</div>
+              <div class="preview-line medium"></div>
+              <div class="preview-line short"></div>
+              <div class="entry-card">
+                <div class="preview-line medium"></div>
+                <div class="preview-line short"></div>
+                <span class="badge warn">Uyari</span>
+              </div>
+            </div>
+            <div class="preview-panel"></div>
+            <div class="preview-panel"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Dengeli ust bar</h3>
+      <p>Logo solda ama hala belirgin. Dosya yolu ve aksiyonlar guzel dengelenir. Uygulama en olgun masaustu araci gibi durur.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="app-frame minimal">
+        <div class="window-bar"></div>
+        <div class="preview-shell">
+          <div class="preview-topbar">
+            <div class="preview-brand">
+              <img class="logo-compact" src="/files/applogo.png" alt="FoMTranslator logo">
+              <div class="preview-brand-copy">
+                <div class="eyebrow">Work session</div>
+                <div class="path">localization.en.json</div>
+              </div>
+            </div>
+            <div class="preview-actions">
+              <span>Open</span>
+              <span>Export</span>
+            </div>
+          </div>
+          <div class="preview-grid">
+            <div class="preview-panel">
+              <div class="title">Entries</div>
+              <div class="preview-line medium"></div>
+              <div class="preview-line short"></div>
+              <div class="entry-card">
+                <div class="preview-line medium"></div>
+                <div class="preview-line short"></div>
+                <span class="badge done">Bitti</span>
+              </div>
+            </div>
+            <div class="preview-panel"></div>
+            <div class="preview-panel"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Daha minimal</h3>
+      <p>Logo kuculur, ust alan en sakin haline gelir. En temiz gorunur ama markanin karakteri biraz geri cekilir.</p>
+    </div>
+  </div>
+</div>
