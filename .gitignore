@@ -17,6 +17,7 @@ FoMTranslator/FoMTranslator.exe
 applogo*
 çeviri/
 *.zip
+.worktrees/
 
 # Editor directories and files
 .vscode/*
