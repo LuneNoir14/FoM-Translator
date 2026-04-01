@@ -118,7 +118,7 @@ textarea {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(340px, 400px) minmax(0, 1fr) minmax(0, 1fr);
   gap: 16px;
   min-height: 0;
   overflow: hidden;
@@ -280,6 +280,14 @@ textarea {
   text-align: left;
 }
 
+.category-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
 .category-node[data-active='true'] {
   border-color: #55c2ff;
   box-shadow: 0 0 0 1px rgba(85, 194, 255, 0.24);
@@ -295,9 +303,22 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.category-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  color: #9eb1c8;
+  font-size: 11px;
+}
+
 .category-count {
   color: #88e0ff;
   font-size: 12px;
+  flex-shrink: 0;
+}
+
+.category-percent,
+.category-issues {
   flex-shrink: 0;
 }
 
@@ -306,6 +327,89 @@ textarea {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
   margin-top: 10px;
+}
+
+.progress-board {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.progress-card {
+  padding: 12px 14px;
+  border: 1px solid #33404c;
+  border-radius: 14px;
+  background: #141a21;
+}
+
+.progress-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.progress-percent {
+  color: #88e0ff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.progress-primary {
+  display: block;
+  margin-top: 10px;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #edf3ff;
+}
+
+.progress-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 8px;
+  color: #9eb1c8;
+  font-size: 12px;
+}
+
+.progress-meter {
+  height: 9px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: #222a34;
+  overflow: hidden;
+}
+
+.progress-meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #55c2ff, #81e6a3);
+}
+
+.issue-digest {
+  border-color: #435063;
+}
+
+.issue-digest-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.issue-digest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #d8e2f1;
+  font-size: 13px;
+}
+
+.issue-digest-empty {
+  margin-top: 10px;
+  color: #9eb1c8;
+  font-size: 13px;
 }
 
 .entry-status-card {

@@ -1,8 +1,11 @@
 import { readFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { expect, test } from 'vitest'
 
+const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const themeCss = readFileSync(
-  'C:/Users/ANIL/Desktop/fomçeviri/src/renderer/styles/theme.css',
+  resolve(rootDir, 'src/renderer/styles/theme.css'),
   'utf8',
 )
 
@@ -34,4 +37,16 @@ test('uses a slightly larger header logo for the packaged desktop shell', () => 
   expect(themeCss).toMatch(
     /\.topbar-logo\s*{[\s\S]*width:\s*clamp\(220px,\s*28vw,\s*300px\);/,
   )
+})
+
+test('widens the left workspace column for the progress board layout', () => {
+  expect(themeCss).toMatch(
+    /\.workspace-grid\s*{[\s\S]*grid-template-columns:\s*minmax\(340px,\s*400px\)\s+minmax\(0,\s*1fr\)\s+minmax\(0,\s*1fr\);/,
+  )
+})
+
+test('defines dedicated progress board summary styles', () => {
+  expect(themeCss).toMatch(/\.progress-board\s*{/)
+  expect(themeCss).toMatch(/\.progress-card\s*{/)
+  expect(themeCss).toMatch(/\.issue-digest-row\s*{/)
 })

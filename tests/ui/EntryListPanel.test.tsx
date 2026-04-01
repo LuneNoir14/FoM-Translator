@@ -98,6 +98,93 @@ test('shows English progress counters and generic status badges for each entry',
   ).toBeInTheDocument()
 })
 
+test('shows session progress, selected category progress, and issue digest summaries', () => {
+  const entries = [
+    {
+      key: 'Conversations/one',
+      sourceText: 'Hello',
+      translatedText: 'Merhaba',
+      status: 'reviewed' as const,
+    },
+    {
+      key: 'Conversations/two',
+      sourceText: '[Ari], hello',
+      translatedText: 'Merhaba',
+      status: 'warning' as const,
+    },
+    {
+      key: 'items/one',
+      sourceText: 'Item',
+      translatedText: '',
+      status: 'untranslated' as const,
+    },
+  ]
+
+  useWorkbenchStore.setState({
+    entries,
+    categoryTree: buildCategoryTree(entries.map((entry) => entry.key)),
+    summary: {
+      untranslated: 1,
+      draft: 0,
+      reviewed: 1,
+      warning: 1,
+    },
+    selectedCategoryPath: 'Conversations',
+    selectedKey: 'Conversations/one',
+  })
+
+  render(<EntryListPanel />)
+
+  expect(screen.getByText('Session Progress')).toBeInTheDocument()
+  expect(screen.getByText('Selected Category')).toBeInTheDocument()
+  expect(screen.getByText('Issue Digest')).toBeInTheDocument()
+  expect(screen.getByText('2 / 3 complete')).toBeInTheDocument()
+  expect(screen.getAllByText('Conversations').length).toBeGreaterThan(0)
+  expect(screen.getByText('2 / 2 complete')).toBeInTheDocument()
+  expect(screen.getByText('Missing placeholder')).toBeInTheDocument()
+})
+
+test('shows completion percent and issue count for category rows', () => {
+  const entries = [
+    {
+      key: 'Conversations/one',
+      sourceText: 'Hello',
+      translatedText: 'Merhaba',
+      status: 'reviewed' as const,
+    },
+    {
+      key: 'Conversations/two',
+      sourceText: '[Ari], hello',
+      translatedText: 'Merhaba',
+      status: 'warning' as const,
+    },
+    {
+      key: 'items/one',
+      sourceText: 'Item',
+      translatedText: '',
+      status: 'untranslated' as const,
+    },
+  ]
+
+  useWorkbenchStore.setState({
+    entries,
+    categoryTree: buildCategoryTree(entries.map((entry) => entry.key)),
+    summary: {
+      untranslated: 1,
+      draft: 0,
+      reviewed: 1,
+      warning: 1,
+    },
+    selectedKey: 'Conversations/one',
+  })
+
+  render(<EntryListPanel />)
+
+  expect(screen.getByText('2 / 2')).toBeInTheDocument()
+  expect(screen.getByText('100% complete')).toBeInTheDocument()
+  expect(screen.getByText('1 issue')).toBeInTheDocument()
+})
+
 test('does not mount every row at once for very large projects', () => {
   useWorkbenchStore.setState({
     entries: Array.from({ length: 500 }, (_value, index) => ({

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useWorkbenchStore } from './useWorkbenchStore'
 import { buildCategoryTree } from '../../shared/buildCategoryTree'
 import type { CategoryNode, EntryStatus } from '../../shared/contracts'
+import { deriveProgressBoard } from './deriveProgressBoard'
 
 function matchesQuery(query: string, value: string) {
   return value.toLocaleLowerCase('tr-TR').includes(query.toLocaleLowerCase('tr-TR'))
@@ -45,6 +46,28 @@ function matchesCategoryPath(key: string, selectedCategoryPath: string | null) {
   }
 
   return key === selectedCategoryPath || key.startsWith(`${selectedCategoryPath}/`)
+}
+
+function formatPercent(value: number) {
+  const percent = value * 100
+
+  if (percent >= 100) {
+    return '100%'
+  }
+
+  if (percent >= 10) {
+    return `${Math.round(percent)}%`
+  }
+
+  if (percent >= 1) {
+    return `${percent.toFixed(1).replace(/\.0$/, '')}%`
+  }
+
+  return `${percent.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')}%`
+}
+
+function formatIssueCount(count: number) {
+  return `${count} ${count === 1 ? 'issue' : 'issues'}`
 }
 
 export function EntryListPanel() {
@@ -100,6 +123,14 @@ export function EntryListPanel() {
   const flatCategoryTree = useMemo(
     () => flattenCategoryTree(effectiveCategoryTree, expandedPaths),
     [effectiveCategoryTree, expandedPaths],
+  )
+  const progressBoard = useMemo(
+    () =>
+      deriveProgressBoard({
+        entries,
+        selectedCategoryPath,
+      }),
+    [entries, selectedCategoryPath],
   )
 
   useEffect(() => {
@@ -183,6 +214,77 @@ export function EntryListPanel() {
         ))}
       </div>
 
+      <div className="progress-board" data-testid="progress-board">
+        <section className="progress-card">
+          <div className="progress-card-header">
+            <h3>Session Progress</h3>
+            <span className="progress-percent">
+              {formatPercent(progressBoard.overall.completionPercent)}
+            </span>
+          </div>
+          <strong className="progress-primary">
+            {progressBoard.overall.completeCount} / {progressBoard.overall.totalCount}{' '}
+            complete
+          </strong>
+          <div className="progress-secondary">
+            <span>{progressBoard.overall.remainingCount} remaining</span>
+            <span>{progressBoard.overall.warningCount} warning</span>
+          </div>
+          <div
+            className="progress-meter"
+            aria-hidden="true"
+          >
+            <span
+              className="progress-meter-fill"
+              style={{
+                width: `${Math.min(
+                  100,
+                  progressBoard.overall.completionPercent * 100,
+                )}%`,
+              }}
+            />
+          </div>
+        </section>
+
+        <section className="progress-card">
+          <div className="progress-card-header">
+            <h3>Selected Category</h3>
+            <span className="progress-percent">
+              {formatPercent(progressBoard.selectedScope.completionPercent)}
+            </span>
+          </div>
+          <strong className="progress-primary">
+            {progressBoard.selectedScope.label}
+          </strong>
+          <div className="progress-secondary">
+            <span>
+              {progressBoard.selectedScope.completeCount} / {progressBoard.selectedScope.totalCount}{' '}
+              complete
+            </span>
+            <span>{progressBoard.selectedScope.warningCount} warning</span>
+            <span>{progressBoard.selectedScope.remainingCount} remaining</span>
+          </div>
+        </section>
+
+        <section className="progress-card issue-digest">
+          <div className="progress-card-header">
+            <h3>Issue Digest</h3>
+          </div>
+          {progressBoard.issueDigest.length > 0 ? (
+            <div className="issue-digest-list">
+              {progressBoard.issueDigest.map((issue) => (
+                <div key={issue.code} className="issue-digest-row">
+                  <span>{issue.label}</span>
+                  <strong>{issue.count}</strong>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="issue-digest-empty">No validation issues in this scope</p>
+          )}
+        </section>
+      </div>
+
       <div
         className="entry-list-panel-scroll"
         data-testid="entry-list-panel-scroll"
@@ -213,6 +315,8 @@ export function EntryListPanel() {
               const hasChildren = node.children.length > 0
               const isExpanded = expandedPaths.has(node.path)
               const pathId = node.path.replace(/\//g, '-')
+              const categoryProgress =
+                progressBoard.categoryProgressByPath[node.path]
 
               return (
                 <div
@@ -229,8 +333,24 @@ export function EntryListPanel() {
                     data-testid={`category-node-${pathId}`}
                     onClick={() => setCategoryPath(node.path)}
                   >
-                    <span className="category-label">{node.label}</span>
-                    <span className="category-count">{node.count}</span>
+                    <span className="category-content">
+                      <span className="category-label">{node.label}</span>
+                      <span className="category-metrics">
+                        <span className="category-count">
+                          {categoryProgress?.completeCount ?? 0} /{' '}
+                          {categoryProgress?.totalCount ?? node.count}
+                        </span>
+                        <span className="category-percent">
+                          {formatPercent(
+                            categoryProgress?.completionPercent ?? 0,
+                          )}{' '}
+                          complete
+                        </span>
+                        <span className="category-issues">
+                          {formatIssueCount(categoryProgress?.warningCount ?? 0)}
+                        </span>
+                      </span>
+                    </span>
                   </button>
                   {hasChildren ? (
                     <button
