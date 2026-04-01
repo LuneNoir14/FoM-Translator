@@ -35,7 +35,7 @@ test('uses a flat gray-black app background instead of gradients', () => {
 
 test('uses a slightly larger header logo for the packaged desktop shell', () => {
   expect(themeCss).toMatch(
-    /\.topbar-logo\s*{[\s\S]*width:\s*clamp\(220px,\s*28vw,\s*300px\);/,
+    /\.topbar-logo\s*{[\s\S]*width:\s*clamp\(220px,\s*24vw,\s*300px\);/,
   )
 })
 
@@ -49,4 +49,13 @@ test('defines dedicated progress board summary styles', () => {
   expect(themeCss).toMatch(/\.progress-board\s*{/)
   expect(themeCss).toMatch(/\.progress-card\s*{/)
   expect(themeCss).toMatch(/\.issue-digest-row\s*{/)
+})
+
+test('uses a compact multi-column progress board to preserve sidebar viewport height', () => {
+  expect(themeCss).toMatch(
+    /\.progress-board\s*{[\s\S]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/,
+  )
+  expect(themeCss).toMatch(
+    /\.issue-digest\s*{[\s\S]*grid-column:\s*1\s*\/\s*-1;/,
+  )
 })

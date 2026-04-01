@@ -60,7 +60,7 @@ textarea {
 }
 
 .topbar-logo {
-  width: clamp(220px, 28vw, 300px);
+  width: clamp(220px, 24vw, 300px);
   height: auto;
   display: block;
   flex-shrink: 0;
@@ -331,12 +331,13 @@ textarea {
 
 .progress-board {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin-top: 12px;
 }
 
 .progress-card {
-  padding: 12px 14px;
+  padding: 10px 12px;
   border: 1px solid #33404c;
   border-radius: 14px;
   background: #141a21;
@@ -351,14 +352,14 @@ textarea {
 
 .progress-percent {
   color: #88e0ff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .progress-primary {
   display: block;
-  margin-top: 10px;
-  font-size: 20px;
+  margin-top: 8px;
+  font-size: 17px;
   line-height: 1.2;
   color: #edf3ff;
 }
@@ -366,15 +367,15 @@ textarea {
 .progress-secondary {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-top: 8px;
+  gap: 6px 10px;
+  margin-top: 6px;
   color: #9eb1c8;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .progress-meter {
   height: 9px;
-  margin-top: 12px;
+  margin-top: 10px;
   border-radius: 999px;
   background: #222a34;
   overflow: hidden;
@@ -388,13 +389,14 @@ textarea {
 }
 
 .issue-digest {
+  grid-column: 1 / -1;
   border-color: #435063;
 }
 
 .issue-digest-list {
   display: grid;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .issue-digest-row {
@@ -407,9 +409,9 @@ textarea {
 }
 
 .issue-digest-empty {
-  margin-top: 10px;
+  margin-top: 6px;
   color: #9eb1c8;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .entry-status-card {
@@ -662,6 +664,14 @@ textarea {
 
   .topbar-actions {
     justify-content: flex-end;
+  }
+
+  .progress-board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .issue-digest {
+    grid-column: auto;
   }
 }
 

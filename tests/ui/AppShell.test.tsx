@@ -9,7 +9,7 @@ test('renders the compact brand header with logo artwork', () => {
   const logo = screen.getByAltText('Fields of Mistria Translator logo')
 
   expect(logo).toBeInTheDocument()
-  expect(logo).toHaveAttribute('src', './applogo.png')
+  expect(logo.getAttribute('src')).toContain('fom-brand')
   expect(screen.getByText('Work session')).toBeInTheDocument()
   expect(screen.getByText('Demo workspace loaded')).toBeInTheDocument()
   expect(

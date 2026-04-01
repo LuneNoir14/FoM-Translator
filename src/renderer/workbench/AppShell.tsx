@@ -3,6 +3,7 @@ import { EntryListPanel } from './EntryListPanel'
 import { SourceViewerPanel } from './SourceViewerPanel'
 import { TranslationEditorPanel } from './TranslationEditorPanel'
 import { useWorkbenchStore } from './useWorkbenchStore'
+import topbarLogo from '../../assets/fom-brand.png'
 
 function getHeaderFileLabel(currentFilePath: string | null | undefined) {
   if (!currentFilePath) {
@@ -75,7 +76,7 @@ export function AppShell() {
         <div className="topbar-brand">
           <img
             className="topbar-logo"
-            src="./applogo.png"
+            src={topbarLogo}
             alt="Fields of Mistria Translator logo"
           />
           <div className="topbar-meta">
